@@ -4,6 +4,7 @@ from pydub import AudioSegment
 import os
 import time
 import zipfile
+
 # -------------------------------------------------
 #  CUE AUDIO FILES (folder "cues")
 # -------------------------------------------------
@@ -53,13 +54,14 @@ def process_audio(filepath, apply_cues, cue_data, total_files, current_file, upd
         cue2, cue60, cue30 = cue_data
 
         # Duck music by 6 dB during cues
-        audio_ducked = audio - 18
+        audio_ducked = audio - 12
 
-        audio = audio_ducked.overlay(cue2, position=120000)   # 2-min
-        audio = audio.overlay(cue60, position=180000)         # 60-sec
-        audio = audio.overlay(cue30, position=210000)         # 30-sec
+        audio = audio_ducked.overlay(cue2+5, position=120000)   # 2-min
+        audio = audio.overlay(cue60+5, position=180000)         # 60-sec
+        audio = audio.overlay(cue30+5, position=210000)         # 30-sec
 
     # Clean file name and create the output path
+    audio = audio + 12
     filename = os.path.basename(filepath).rsplit('.', 1)[0].replace(" ", "")[:30]
     output_filename = f"{filename}_processed.wav"
     
